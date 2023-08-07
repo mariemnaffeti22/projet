@@ -3,8 +3,7 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Switch, Route, Link } from  "react-router-dom";
 import Accueil from "./components/Accueil";
 import Employées from "./components/Employées";
-import Taches from "./components/Taches";
-
+import Taches from "./components/Taches"; 
 
 const App =() => {
     return (

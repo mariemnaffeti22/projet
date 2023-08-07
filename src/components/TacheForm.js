@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import Axios from "axios"; 
 
 const TacheForm = ({ onSubmit }) => {
-  // Déclaration de l'état local pour gérer les champs du formulaire
   const [tache, setTache] = useState({
     nom: "",
     description: "",
@@ -12,78 +12,98 @@ const TacheForm = ({ onSubmit }) => {
     dateLimite: "",
   });
 
-  // Gestion du changement des champs du formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTache({ ...tache, [name]: value });
   };
 
-  // Gestion de la soumission du formulaire
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(tache); // Appeler la fonction de gestion de l'ajout d'une tâche
-    setTache({
-      nom: "",
-      description: "",
-      createur: "",
-      developpeurs: "",
-      priorite: "",
-      avancement: "",
-      dateLimite: "",
-    }); // Réinitialiser le formulaire après soumission
+
+    
+    Axios.post("http://localhost:4000/", tache)
+    .then((response) => {
+        onSubmit(response.data); 
+        setTache({
+          nom: "",
+          description: "",
+          createur: "",
+          developpeurs: "",
+          priorite: "",
+          avancement: "",
+          dateLimite: "",
+        });
+      })
+      .catch((error) => {
+        console.error("Erreur lors de l'ajout de la tâche :", error);
+      });
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <label>Nom:</label>
       <input
         type="text"
         name="nom"
         value={tache.nom}
         onChange={handleChange}
         placeholder="Nom de la tâche"
-      />
+      /><br></br>
+
+      <label>Description:</label>
       <input
         type="text"
         name="description"
         value={tache.description}
         onChange={handleChange}
         placeholder="Description de la tâche"
-      />
+      /><br></br>
+
+      <label>Créateur:</label>
       <input
         type="text"
         name="createur"
         value={tache.createur}
         onChange={handleChange}
-        placeholder="Créer par"
-      />
+        placeholder="Créé par"
+      /><br></br>
+
+      <label>Développeurs:</label>
       <input
         type="text"
         name="developpeurs"
         value={tache.developpeurs}
         onChange={handleChange}
         placeholder="Développeurs"
-      />
+      /><br></br>
+
+      <label>Priorité:</label>
       <input
         type="text"
         name="priorite"
         value={tache.priorite}
         onChange={handleChange}
         placeholder="Priorité"
-      />
+      /><br></br>
+
+      <label>Avancement:</label>
       <input
         type="text"
         name="avancement"
         value={tache.avancement}
         onChange={handleChange}
         placeholder="Avancement"
-      />
+      /><br></br>
+
+      <label>Date Limite:</label>
       <input
         type="date"
         name="dateLimite"
         value={tache.dateLimite}
         onChange={handleChange}
         placeholder="Date limite"
-      />
+      /><br></br>
+
       <button type="submit">Enregistrer</button>
     </form>
   );
